@@ -10,10 +10,21 @@ void HandRaisedDetector::UpdateData(k4abt_body_t selectedBody, uint64_t currentT
     k4a_float3_t leftWristJoint = selectedBody.skeleton.joints[K4ABT_JOINT_WRIST_LEFT].position;
     k4a_float3_t rightWristJoint = selectedBody.skeleton.joints[K4ABT_JOINT_WRIST_RIGHT].position;
     k4a_float3_t headJoint = selectedBody.skeleton.joints[K4ABT_JOINT_HEAD].position;
+    k4a_float3_t leftElbow = selectedBody.skeleton.joints[K4ABT_JOINT_ELBOW_LEFT].position;
+    k4a_float3_t rightElbow = selectedBody.skeleton.joints[K4ABT_JOINT_ELBOW_RIGHT].position;
+    k4a_float3_t leftShoulder = selectedBody.skeleton.joints[K4ABT_JOINT_SHOULDER_LEFT].position;
+    k4a_float3_t rightShoulder = selectedBody.skeleton.joints[K4ABT_JOINT_SHOULDER_RIGHT].position;
 
     // Notice: y direction is pointing towards the ground! So jointA.y < jointB.y means jointA is higher than jointB
     bool bothHandsAreRaised = leftWristJoint.xyz.y < headJoint.xyz.y &&
                                rightWristJoint.xyz.y < headJoint.xyz.y;
+
+    m_key1Pressed = leftWristJoint.xyz.y < leftElbow.xyz.y;
+    m_key2Pressed = rightWristJoint.xyz.y < rightElbow.xyz.y;
+    m_key3Pressed = leftWristJoint.xyz.y < leftShoulder.xyz.y;
+    m_key4Pressed = rightWristJoint.xyz.y < rightShoulder.xyz.y;
+    m_key5Pressed = leftWristJoint.xyz.y < headJoint.xyz.y;
+    m_key6Pressed = rightWristJoint.xyz.y < headJoint.xyz.y;
 
     microseconds currentTimestamp(currentTimestampUsec);
     if (m_previousTimestamp == microseconds::zero())
