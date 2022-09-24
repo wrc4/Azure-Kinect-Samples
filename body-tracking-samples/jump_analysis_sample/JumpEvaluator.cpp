@@ -66,6 +66,21 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
         }
         m_jumpStatus = JumpStatus::Idle;
     }
+
+    // Print HandRaisedDetector data
+    if (m_handRaisedDetector.Key1Pressed())
+        std::cout << "Key1Pressed!" <<  std::endl;
+    if (m_handRaisedDetector.Key2Pressed())
+        std::cout << "Key2Pressed!" << std::endl;
+    //if (m_handRaisedDetector.Key3Pressed())
+    //    std::cout << "Key3Pressed!" << std::endl;
+    //if (m_handRaisedDetector.Key4Pressed())
+    //    std::cout << "Key4Pressed!" << std::endl;
+    //if (m_handRaisedDetector.Key5Pressed())
+    //    std::cout << "Key5Pressed!" << std::endl;
+    //if (m_handRaisedDetector.Key6Pressed())
+    //    std::cout << "Key6Pressed!" << std::endl;
+
 }
 
 /******************************************************************************************************/
