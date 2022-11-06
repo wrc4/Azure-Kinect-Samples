@@ -58,6 +58,8 @@ private:
         int windowIndex,
         k4a_float3_t standingPosition);
 
+    void SendKey(LPCSTR lpWindowsName, WORD wVk);
+
 private:
     // Constant settings for digial signal processing
     const size_t MinimumBodyNumber = 20;  // Minimum number of bodies required in the body list to perform the jump analysis

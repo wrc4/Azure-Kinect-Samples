@@ -69,9 +69,15 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
 
     // Print HandRaisedDetector data
     if (m_handRaisedDetector.Key1Pressed())
-        std::cout << "Key1Pressed!" <<  std::endl;
+    {
+        std::cout << "1 - Key Pressed!" << std::endl;
+        SendKey(TEXT(""), '1');
+    }
     if (m_handRaisedDetector.Key2Pressed())
-        std::cout << "Key2Pressed!" << std::endl;
+    {
+        std::cout << "2 - Key Pressed!" << std::endl;
+        SendKey(TEXT(""), '2');
+    }
     //if (m_handRaisedDetector.Key3Pressed())
     //    std::cout << "Key3Pressed!" << std::endl;
     //if (m_handRaisedDetector.Key4Pressed())
@@ -86,6 +92,31 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
 /******************************************************************************************************/
 /****************************************** Helper functions ******************************************/
 /******************************************************************************************************/
+
+void JumpEvaluator::SendKey(LPCSTR lpWindowsName, WORD wVk)
+{
+    HWND hWnd = FindWindow(NULL, TEXT("*Untitled - Notepad"));
+    
+    //PostMessageW(hWnd, WM_CHAR, '1', 0);
+
+    INPUT inputs[2] = {};
+    ZeroMemory(inputs, sizeof(inputs));
+
+    inputs[0].type = INPUT_KEYBOARD;
+    inputs[0].ki.wVk = wVk;
+
+    inputs[1].type = INPUT_KEYBOARD;
+    inputs[1].ki.wVk = wVk;
+    inputs[1].ki.dwFlags = KEYEVENTF_KEYUP;
+
+    UINT uSent = SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
+    if (uSent != ARRAYSIZE(inputs))
+    {
+        std::cout << " - SendInput failed£¡" << std::endl;
+        //OutputString(L"SendInput failed: 0x%x\n", HRESULT_FROM_WIN32(GetLastError()));
+    }
+}
+
 
 void JumpEvaluator::UpdateStatus(bool changeStatus)
 {
