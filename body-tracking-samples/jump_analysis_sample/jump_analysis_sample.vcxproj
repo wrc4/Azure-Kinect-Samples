@@ -89,6 +89,7 @@
     <ClCompile Include="HandRaisedDetector.cpp" />
     <ClCompile Include="JumpEvaluator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Yaml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sample_helper_libs\window_controller_3d\window_controller_3d.vcxproj">
@@ -99,6 +100,7 @@
     <ClInclude Include="DSP.h" />
     <ClInclude Include="HandRaisedDetector.h" />
     <ClInclude Include="JumpEvaluator.h" />
+    <ClInclude Include="Yaml.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dnn_model_2_0.onnx" />

@@ -14,6 +14,7 @@
 #include <Window3dWrapper.h>
 
 #include "JumpEvaluator.h"
+#include "Yaml.hpp"
 
 void PrintAppUsage()
 {
@@ -112,7 +113,22 @@ bool ProcessArguments(k4abt_tracker_configuration_t& tracker_config, int argc, c
 
 int main(int argc, char** argv)
 {
+    bool showMonitor = false;
+
     PrintAppUsage();
+
+    // Load settings from yaml
+    using namespace Yaml;
+    Node root;
+    try
+    {
+        Parse(root, "./config.txt");
+        showMonitor = root["monitor"].As<bool>(false);
+    }
+    catch (const Exception e)
+    {
+        std::cout << "Exception " << e.Type() << ": " << e.what() << std::endl;
+    }
 
     k4a_device_t device = nullptr;
     VERIFY(k4a_device_open(0, &device), "Open K4A Device failed!");
@@ -139,10 +155,12 @@ int main(int argc, char** argv)
 
     // Initialize the 3d window controller
     Window3dWrapper window3d;
-    window3d.Create("3D Visualization", sensorCalibration);
-    window3d.SetCloseCallback(CloseCallback);
-    window3d.SetKeyCallback(ProcessKey);
-
+    if (showMonitor)
+    {
+        window3d.Create("3D Visualization", sensorCalibration);
+        window3d.SetCloseCallback(CloseCallback);
+        window3d.SetKeyCallback(ProcessKey);
+    }
     // Initialize the jump evaluator
     JumpEvaluator jumpEvaluator;
 
@@ -200,36 +218,46 @@ int main(int argc, char** argv)
             }
 #pragma endregion
 
-            // Visualize point cloud
-            k4a_image_t depthImage = k4a_capture_get_depth_image(originalCapture);
-            window3d.UpdatePointClouds(depthImage);
-
-            // Visualize the skeleton data
-            window3d.CleanJointsAndBones();
-            uint32_t numBodies = k4abt_frame_get_num_bodies(bodyFrame);
-            for (uint32_t i = 0; i < numBodies; i++)
+            if (showMonitor)
             {
-                k4abt_body_t body;
-                VERIFY(k4abt_frame_get_body_skeleton(bodyFrame, i, &body.skeleton), "Get skeleton from body frame failed!");
-                body.id = k4abt_frame_get_body_id(bodyFrame, i);
+                // Visualize point cloud
+                k4a_image_t depthImage = k4a_capture_get_depth_image(originalCapture);
+                window3d.UpdatePointClouds(depthImage);
 
-                Color color = g_bodyColors[body.id % g_bodyColors.size()];
-                color.a = i == JumpEvaluationBodyIndex ? 0.8f : 0.1f;
+                // Visualize the skeleton data
+                window3d.CleanJointsAndBones();
+                uint32_t numBodies = k4abt_frame_get_num_bodies(bodyFrame);
+                for (uint32_t i = 0; i < numBodies; i++)
+                {
+                    k4abt_body_t body;
+                    VERIFY(k4abt_frame_get_body_skeleton(bodyFrame, i, &body.skeleton), "Get skeleton from body frame failed!");
+                    body.id = k4abt_frame_get_body_id(bodyFrame, i);
 
-                window3d.AddBody(body, color);
+                    Color color = g_bodyColors[body.id % g_bodyColors.size()];
+                    color.a = i == JumpEvaluationBodyIndex ? 0.8f : 0.1f;
+
+                    window3d.AddBody(body, color);
+                }
+
+                k4a_capture_release(originalCapture);
+                k4a_image_release(depthImage);
+                k4abt_frame_release(bodyFrame);
             }
-
-            k4a_capture_release(originalCapture);
-            k4a_image_release(depthImage);
-            k4abt_frame_release(bodyFrame);
         }
 
-        window3d.Render();
+        if (showMonitor)
+        {
+            window3d.Render();
+        }
     }
 
     std::cout << "Finished jump analysis processing!" << std::endl;
 
-    window3d.Delete();
+    if (showMonitor)
+    {
+        window3d.Delete();
+    }
+
     k4abt_tracker_shutdown(tracker);
     k4abt_tracker_destroy(tracker);
 

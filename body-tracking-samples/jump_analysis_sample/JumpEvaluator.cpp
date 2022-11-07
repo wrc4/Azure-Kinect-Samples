@@ -9,6 +9,8 @@
 
 #include "DigitalSignalProcessing.h"
 
+#include "Yaml.hpp"
+
 using namespace Visualization;
 using namespace std::chrono;
 
@@ -71,12 +73,12 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
     if (m_handRaisedDetector.Key1Pressed())
     {
         std::cout << "1 - Key Pressed!" << std::endl;
-        SendKey(TEXT(""), '1');
+        SendKey(m_targetWindowName.c_str(), '1');
     }
     if (m_handRaisedDetector.Key2Pressed())
     {
         std::cout << "2 - Key Pressed!" << std::endl;
-        SendKey(TEXT(""), '2');
+        SendKey(m_targetWindowName.c_str(), '2');
     }
     //if (m_handRaisedDetector.Key3Pressed())
     //    std::cout << "Key3Pressed!" << std::endl;
@@ -95,9 +97,8 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
 
 void JumpEvaluator::SendKey(LPCSTR lpWindowsName, WORD wVk)
 {
-    HWND hWnd = FindWindow(NULL, TEXT("*Untitled - Notepad"));
-    
-    //PostMessageW(hWnd, WM_CHAR, '1', 0);
+    // HWND hWnd = FindWindow(NULL, lpWindowsName);
+    // PostMessageW(hWnd, WM_CHAR, '1', 0);
 
     INPUT inputs[2] = {};
     ZeroMemory(inputs, sizeof(inputs));
@@ -141,6 +142,21 @@ void JumpEvaluator::InitiateJump()
 {
     m_listOfBodyPositions.clear();
     m_framesTimestampInUsec.clear();
+
+    // Load settings from yaml
+    using namespace Yaml;
+    Node root;
+    try
+    {
+        Parse(root, "./config.txt");
+        m_targetWindowName = root["target"].As<std::string>("");
+        m_levelAdjust = root["level"].As<int>(0);
+    }
+    catch (const Exception e)
+    {
+        std::cout << "Exception " << e.Type() << ": " << e.what() << std::endl;
+        return;
+    }
 }
 
 JumpResultsData JumpEvaluator::CalculateJumpResults()

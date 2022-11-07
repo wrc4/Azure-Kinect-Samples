@@ -58,7 +58,7 @@ private:
         int windowIndex,
         k4a_float3_t standingPosition);
 
-    void SendKey(LPCSTR lpWindowsName, WORD wVk);
+    void SendKey(LPCSTR lpWindowName, WORD wVk);
 
 private:
     // Constant settings for digial signal processing
@@ -82,4 +82,8 @@ private:
     Window3dWrapper m_window3dSquatPose;
     Window3dWrapper m_window3dJumpPeakPose;
     Window3dWrapper m_window3dReplay;
+
+    std::string m_targetWindowName;
+    int m_levelAdjust;
+    bool m_showMonitor;
 };
