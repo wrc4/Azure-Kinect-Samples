@@ -1,4 +1,4 @@
-# Azure Kinect Body Tracking JumpAnalysis Sample
+# PoseKey - based on Azure Kinect Body Tracking JumpAnalysis Sample
 
 ## Introduction
 
@@ -21,3 +21,12 @@ jump_analysis_sample.exe
 5. Three 3d windows will pop up to show the moment of your deepest squat, jump peak and a replay of your full jump session.
    Your jump analysis results will also be printed out on the command prompt.
 6. Close any of the 3d windows to go back to the idle stage.
+
+## config.txt
+target:*
+level:0
+monitor:true
+p1key1:a
+p1key2:b
+p2key1:c
+p2key2:d

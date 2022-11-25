@@ -72,13 +72,13 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
     // Print HandRaisedDetector data
     if (m_handRaisedDetector.Key1Pressed())
     {
-        std::cout << "1 - Key Pressed!" << std::endl;
-        SendKey(m_targetWindowName.c_str(), '1');
+        std::cout << "Player 1 Key 1 - Pressed!" << std::endl;
+        SendKey(m_targetWindowName.c_str(), m_player1Key1);
     }
     if (m_handRaisedDetector.Key2Pressed())
     {
-        std::cout << "2 - Key Pressed!" << std::endl;
-        SendKey(m_targetWindowName.c_str(), '2');
+        std::cout << "Player 1 Key 2 - Pressed!" << std::endl;
+        SendKey(m_targetWindowName.c_str(), m_player1Key2);
     }
     //if (m_handRaisedDetector.Key3Pressed())
     //    std::cout << "Key3Pressed!" << std::endl;
@@ -151,6 +151,10 @@ void JumpEvaluator::InitiateJump()
         Parse(root, "./config.txt");
         m_targetWindowName = root["target"].As<std::string>("");
         m_levelAdjust = root["level"].As<int>(0);
+        m_player1Key1 = root["p1key1"].As<char>('1');
+        m_player1Key2 = root["p1key2"].As<char>('2');
+        m_player2Key1 = root["p2key1"].As<char>('3');
+        m_player2Key2 = root["p2key2"].As<char>('4');
     }
     catch (const Exception e)
     {

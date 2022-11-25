@@ -86,4 +86,8 @@ private:
     std::string m_targetWindowName;
     int m_levelAdjust;
     bool m_showMonitor;
+    char m_player1Key1;
+    char m_player1Key2;
+    char m_player2Key1;
+    char m_player2Key2;
 };
