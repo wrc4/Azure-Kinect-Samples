@@ -162,7 +162,8 @@ int main(int argc, char** argv)
         window3d.SetKeyCallback(ProcessKey);
     }
     // Initialize the jump evaluator
-    JumpEvaluator jumpEvaluator;
+    JumpEvaluator player1Evaluator(0);
+    JumpEvaluator player2Evaluator(1);
 
     while (s_isRunning)
     {
@@ -202,7 +203,8 @@ int main(int argc, char** argv)
 
 #pragma region Jump Analysis
             // Update jump evaluator status
-            jumpEvaluator.UpdateStatus(s_spaceHit);
+            player1Evaluator.UpdateStatus(s_spaceHit);
+            player2Evaluator.UpdateStatus(s_spaceHit);
             s_spaceHit = false;
 
             // Add new body tracking result to the jump evaluator
@@ -214,7 +216,18 @@ int main(int argc, char** argv)
                 body.id = k4abt_frame_get_body_id(bodyFrame, JumpEvaluationBodyIndex);
 
                 uint64_t timestampUsec = k4abt_frame_get_device_timestamp_usec(bodyFrame);
-                jumpEvaluator.UpdateData(body, timestampUsec);
+                player1Evaluator.UpdateData(body, timestampUsec);
+            }
+            // Add new body tracking result to the jump evaluator
+            const size_t JumpEvaluationBody2Index = 1; // For simplicity, only run jump evaluation on body 0
+            if (k4abt_frame_get_num_bodies(bodyFrame) > 1)
+            {
+                k4abt_body_t body;
+                VERIFY(k4abt_frame_get_body_skeleton(bodyFrame, JumpEvaluationBody2Index, &body.skeleton), "Get skeleton from body frame failed!");
+                body.id = k4abt_frame_get_body_id(bodyFrame, JumpEvaluationBody2Index);
+
+                uint64_t timestampUsec = k4abt_frame_get_device_timestamp_usec(bodyFrame);
+                player2Evaluator.UpdateData(body, timestampUsec);
             }
 #pragma endregion
 
