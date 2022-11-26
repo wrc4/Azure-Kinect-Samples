@@ -23,8 +23,8 @@ void HandRaisedDetector::UpdateData(k4abt_body_t selectedBody, uint64_t currentT
     bool bothHandsAreRaised = leftWristJoint.xyz.y < headJoint.xyz.y &&
                                rightWristJoint.xyz.y < headJoint.xyz.y;
 
-    m_key1Pressed = leftKnee.xyz.y < leftHip.xyz.y;
-    m_key2Pressed = rightKnee.xyz.y < rightHip.xyz.y;
+    m_key1Pressed = leftKnee.xyz.y - m_level < leftHip.xyz.y;
+    m_key2Pressed = rightKnee.xyz.y - m_level < rightHip.xyz.y;
     //m_key3Pressed = leftWristJoint.xyz.y < leftShoulder.xyz.y;
     //m_key4Pressed = rightWristJoint.xyz.y < rightShoulder.xyz.y;
     //m_key5Pressed = leftWristJoint.xyz.y < headJoint.xyz.y;

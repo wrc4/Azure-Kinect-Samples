@@ -37,7 +37,10 @@ public:
 
     bool Key6Repeating() { return m_key6Repeating; }
 
+    void setLevel(int level) { m_level = level; }
+
 private:
+    int m_level = 0;
     bool m_key1Pressed = false;
     bool m_key1Repeating = false;
     bool m_key2Pressed = false;

@@ -155,6 +155,7 @@ void JumpEvaluator::InitiateJump()
         m_player1Key2 = root["p1key2"].As<char>('2');
         m_player2Key1 = root["p2key1"].As<char>('3');
         m_player2Key2 = root["p2key2"].As<char>('4');
+        m_handRaisedDetector.setLevel(m_levelAdjust);
     }
     catch (const Exception e)
     {
