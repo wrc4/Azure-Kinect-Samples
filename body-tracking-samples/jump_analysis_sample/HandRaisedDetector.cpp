@@ -19,12 +19,27 @@ void HandRaisedDetector::UpdateData(k4abt_body_t selectedBody, uint64_t currentT
     k4a_float3_t leftKnee = selectedBody.skeleton.joints[K4ABT_JOINT_KNEE_LEFT].position;
     k4a_float3_t rightKnee = selectedBody.skeleton.joints[K4ABT_JOINT_KNEE_RIGHT].position;
 
+    k4a_float3_t leftFoot = selectedBody.skeleton.joints[K4ABT_JOINT_FOOT_LEFT].position;
+    k4a_float3_t rightFoot = selectedBody.skeleton.joints[K4ABT_JOINT_FOOT_RIGHT].position;
+
     // Notice: y direction is pointing towards the ground! So jointA.y < jointB.y means jointA is higher than jointB
     bool bothHandsAreRaised = leftWristJoint.xyz.y < headJoint.xyz.y &&
                                rightWristJoint.xyz.y < headJoint.xyz.y;
 
-    m_key1Pressed = leftKnee.xyz.y - m_level < leftHip.xyz.y;
-    m_key2Pressed = rightKnee.xyz.y - m_level < rightHip.xyz.y;
+    if (leftFoot.xyz.y - rightFoot.xyz.y > m_level)
+    {
+        m_key2Pressed = true;
+        m_key1Pressed = false;
+    }
+
+    if (rightFoot.xyz.y - leftFoot.xyz.y > m_level)
+    {
+        m_key1Pressed = true;
+        m_key2Pressed = false;
+    }
+
+    //m_key1Pressed = leftKnee.xyz.y - m_level < leftHip.xyz.y;
+    //m_key2Pressed = rightKnee.xyz.y - m_level < rightHip.xyz.y;
     //m_key3Pressed = leftWristJoint.xyz.y < leftShoulder.xyz.y;
     //m_key4Pressed = rightWristJoint.xyz.y < rightShoulder.xyz.y;
     //m_key5Pressed = leftWristJoint.xyz.y < headJoint.xyz.y;
