@@ -44,30 +44,30 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
     bool handsAreRaised = m_handRaisedDetector.AreBothHandsRaised();
     if (!m_previousHandsAreRaised && handsAreRaised)
     {
-        UpdateStatus(true);
+        //UpdateStatus(true);
     }
     m_previousHandsAreRaised = handsAreRaised;
 #pragma endregion
 
-    // Collect jump data
-    if (m_jumpStatus == JumpStatus::CollectJumpData)
-    {
-        m_listOfBodyPositions.push_back(selectedBody);
-        m_framesTimestampInUsec.push_back(static_cast<float>(currentTimestampUsec));
-    }
+    //// Collect jump data
+    //if (m_jumpStatus == JumpStatus::CollectJumpData)
+    //{
+    //    m_listOfBodyPositions.push_back(selectedBody);
+    //    m_framesTimestampInUsec.push_back(static_cast<float>(currentTimestampUsec));
+    //}
 
-    // Calculate jump results
-    if (m_jumpStatus == JumpStatus::EvaluateAndReview)
-    {
-        JumpResultsData jumpResults = CalculateJumpResults();
-        PrintJumpResults(jumpResults);
+    //// Calculate jump results
+    //if (m_jumpStatus == JumpStatus::EvaluateAndReview)
+    //{
+    //    JumpResultsData jumpResults = CalculateJumpResults();
+    //    PrintJumpResults(jumpResults);
 
-        if (jumpResults.JumpSuccess)
-        {
-            ReviewJumpResults(jumpResults);
-        }
-        m_jumpStatus = JumpStatus::Idle;
-    }
+    //    if (jumpResults.JumpSuccess)
+    //    {
+    //        ReviewJumpResults(jumpResults);
+    //    }
+    //    m_jumpStatus = JumpStatus::Idle;
+    //}
 
     // Print HandRaisedDetector data
     if (m_handRaisedDetector.Key1Pressed())
