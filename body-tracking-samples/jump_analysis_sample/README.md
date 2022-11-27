@@ -24,9 +24,9 @@ jump_analysis_sample.exe
 
 ## config.txt
 target:*
-level:0
+level:120
 monitor:true
-p1key1:a
-p1key2:b
-p2key1:c
-p2key2:d
+p1key1:'A'
+p1key2:'B'
+p2key1:'C'
+p2key2:'D'
