@@ -76,12 +76,12 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
             m_lastKey = 1;
             if (m_playerIndex == 0)
             {
-                std::cout << "Player 1 Key 1 - Pressed!" << std::endl;
+                std::cout << "Player 1 Key 1 - Pressed! (" << m_player1Key1 << ")" << std::endl;
                 SendKey(m_targetWindowName.c_str(), m_player1Key1);
             }
             else
             {
-                std::cout << "Player 2 Key 1 - Pressed!" << std::endl;
+                std::cout << "Player 2 Key 1 - Pressed! (" << m_player2Key1 << ")" << std::endl;
                 SendKey(m_targetWindowName.c_str(), m_player2Key1);
             }
         }
@@ -92,12 +92,12 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
             m_lastKey = 2;
             if (m_playerIndex == 0)
             {
-                std::cout << "Player 1 Key 2 - Pressed!" << std::endl;
+                std::cout << "Player 1 Key 2 - Pressed! (" << m_player1Key2 << ")" << std::endl;
                 SendKey(m_targetWindowName.c_str(), m_player1Key2);
             }
             else
             {
-                std::cout << "Player 2 Key 2 - Pressed!" << std::endl;
+                std::cout << "Player 2 Key 2 - Pressed! (" << m_player2Key2 << ")" << std::endl;
                 SendKey(m_targetWindowName.c_str(), m_player2Key2);
             }
         }
@@ -160,6 +160,11 @@ void JumpEvaluator::UpdateStatus(bool changeStatus)
     }
 }
 
+void JumpEvaluator::LoadConfig()
+{
+    InitiateJump();
+}
+
 void JumpEvaluator::InitiateJump()
 {
     m_listOfBodyPositions.clear();
@@ -178,6 +183,7 @@ void JumpEvaluator::InitiateJump()
         m_player2Key1 = root["p2key1"].As<char>('3');
         m_player2Key2 = root["p2key2"].As<char>('4');
         m_handRaisedDetector.setLevel(m_levelAdjust);
+        //std::cout << "p1key1 = " << m_player1Key1 << std::endl;
     }
     catch (const Exception e)
     {

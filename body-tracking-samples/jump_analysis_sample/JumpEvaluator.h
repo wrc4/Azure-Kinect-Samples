@@ -25,6 +25,7 @@ public:
     JumpEvaluator(int playerIndex) { m_playerIndex = playerIndex; m_lastKey = 0; }
     void UpdateStatus(bool changeStatus);
     void UpdateData(k4abt_body_t selectedBody, uint64_t currentTimestampUsec);
+    void LoadConfig();
 
 private:
     void InitiateJump();

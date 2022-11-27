@@ -165,6 +165,9 @@ int main(int argc, char** argv)
     JumpEvaluator player1Evaluator(0);
     JumpEvaluator player2Evaluator(1);
 
+    player1Evaluator.LoadConfig();
+    player2Evaluator.LoadConfig();
+
     while (s_isRunning)
     {
         k4a_capture_t sensorCapture = nullptr;
