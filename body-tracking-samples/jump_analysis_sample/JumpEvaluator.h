@@ -22,7 +22,7 @@ struct JumpResultsData;
 class JumpEvaluator
 {
 public:
-    JumpEvaluator(int playerIndex) { m_playerIndex = playerIndex; }
+    JumpEvaluator(int playerIndex) { m_playerIndex = playerIndex; m_lastKey = 0; }
     void UpdateStatus(bool changeStatus);
     void UpdateData(k4abt_body_t selectedBody, uint64_t currentTimestampUsec);
 
@@ -92,4 +92,5 @@ private:
     char m_player2Key1;
     char m_player2Key2;
     int m_playerIndex;
+    int m_lastKey;
 };

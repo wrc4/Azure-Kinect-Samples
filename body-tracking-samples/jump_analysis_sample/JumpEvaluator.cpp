@@ -72,28 +72,34 @@ void JumpEvaluator::UpdateData(k4abt_body_t selectedBody, uint64_t currentTimest
     // Print HandRaisedDetector data
     if (m_handRaisedDetector.Key1Pressed())
     {
-        if (m_playerIndex == 0)
-        {
-            std::cout << "Player 1 Key 1 - Pressed!" << std::endl;
-            SendKey(m_targetWindowName.c_str(), m_player1Key1);
-        }
-        else
-        {
-            std::cout << "Player 2 Key 1 - Pressed!" << std::endl;
-            SendKey(m_targetWindowName.c_str(), m_player2Key1);
+        if (m_lastKey == 0 || m_lastKey == 2) {
+            m_lastKey = 1;
+            if (m_playerIndex == 0)
+            {
+                std::cout << "Player 1 Key 1 - Pressed!" << std::endl;
+                SendKey(m_targetWindowName.c_str(), m_player1Key1);
+            }
+            else
+            {
+                std::cout << "Player 2 Key 1 - Pressed!" << std::endl;
+                SendKey(m_targetWindowName.c_str(), m_player2Key1);
+            }
         }
     }
     if (m_handRaisedDetector.Key2Pressed())
     {
-        if (m_playerIndex == 0)
-        {
-            std::cout << "Player 1 Key 2 - Pressed!" << std::endl;
-            SendKey(m_targetWindowName.c_str(), m_player1Key2);
-        }
-        else
-        {
-            std::cout << "Player 2 Key 2 - Pressed!" << std::endl;
-            SendKey(m_targetWindowName.c_str(), m_player2Key2);
+        if (m_lastKey == 0 || m_lastKey == 1) {
+            m_lastKey = 2;
+            if (m_playerIndex == 0)
+            {
+                std::cout << "Player 1 Key 2 - Pressed!" << std::endl;
+                SendKey(m_targetWindowName.c_str(), m_player1Key2);
+            }
+            else
+            {
+                std::cout << "Player 2 Key 2 - Pressed!" << std::endl;
+                SendKey(m_targetWindowName.c_str(), m_player2Key2);
+            }
         }
     }
     //if (m_handRaisedDetector.Key3Pressed())
