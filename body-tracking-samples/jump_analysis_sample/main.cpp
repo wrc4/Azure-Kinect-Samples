@@ -19,14 +19,19 @@
 void PrintAppUsage()
 {
     printf("\n");
-    printf(" Basic Usage:\n\n");
-    printf(" 1. Make sure you place the camera parallel to the floor and there is only one person in the scene.\n");
-    printf(" 2. Raise both of your hands above your head or hit 'space' key to start the jump session.\n");
-    printf(" 3. Perform a jump. Try to land at the same location as the starting point.\n");
-    printf(" 4. Raise both of your hands above your head or hit 'space' key again to finish the session.\n");
-    printf(" 5. Three 3d windows will pop up to show the moment of your deepest squat, jump peak and a replay of your full jump session.\n");
-    printf("    Your jump analysis results will also be printed out on the command prompt.\n");
-    printf(" 6. Close any of the 3d windows to go back to the idle stage.\n");
+    //printf(" Basic Usage:\n\n");
+    //printf(" 1. Make sure you place the camera parallel to the floor and there is only one person in the scene.\n");
+    //printf(" 2. Raise both of your hands above your head or hit 'space' key to start the jump session.\n");
+    //printf(" 3. Perform a jump. Try to land at the same location as the starting point.\n");
+    //printf(" 4. Raise both of your hands above your head or hit 'space' key again to finish the session.\n");
+    //printf(" 5. Three 3d windows will pop up to show the moment of your deepest squat, jump peak and a replay of your full jump session.\n");
+    //printf("    Your jump analysis results will also be printed out on the command prompt.\n");
+    //printf(" 6. Close any of the 3d windows to go back to the idle stage.\n");
+    printf(" Config.txt 参数设置:\n\n");
+    printf(" 1. level = (number)：两脚的高度差。数值越大要求抬脚越高（难度越大）\n");
+    printf(" 2. monitor = (true|false)：显示/隐藏调试窗口\n");
+    printf(" 3. p1key1,p1key2,p2key1,p2key2 = ('A'-'Z','0'-'9')：发送键码（注意不是字符）\n");
+    printf(" 4. 参考：https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes?redirectedfrom=MSDN \n");
     printf("\n");
 }
 
@@ -70,7 +75,7 @@ void PrintUsage()
 
 bool ProcessArguments(k4abt_tracker_configuration_t& tracker_config, int argc, char** argv)
 {
-    PrintUsage();
+    //PrintUsage();
 
     for (int i = 1; i < argc; i++ )
     {
